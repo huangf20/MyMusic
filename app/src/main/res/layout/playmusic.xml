@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:orientation="vertical"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content">
+
+    <!-- ！光盘-->
+    <FrameLayout
+        android:id="@+id/fl_playmusic"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="@dimen/discTopSize"
+        >
+        <ImageView
+            android:layout_width="225dp"
+            android:layout_height="225dp"
+            android:src="@mipmap/disc1"/>
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/iv_iron"
+            android:layout_width="@dimen/playmusicIconSize"
+            android:layout_height="@dimen/playmusicIconSize"
+            android:layout_gravity="center"
+            app:civ_border_width="2dp"
+            app:civ_circle_background_color="@android:color/black"/>
+
+    </FrameLayout>
+
+</FrameLayout>
