@@ -12,9 +12,11 @@ import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.lzx.starrysky.OnPlayerEventListener;
+import com.lzx.starrysky.SongInfo;
 import com.lzx.starrysky.StarrySky;
-import com.lzx.starrysky.control.OnPlayerEventListener;
-import com.lzx.starrysky.provider.SongInfo;
+
+import com.lzx.starrysky.manager.PlaybackStage;
 import com.lzx.starrysky.utils.TimerTaskManager;
 
 import java.text.SimpleDateFormat;
@@ -30,9 +32,9 @@ public class MainActivity extends AppCompatActivity implements OnPlayerEventList
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        StarrySky.Companion.init(this.getApplication());
+        StarrySky.init(this.getApplication());
         manager = new TimerTaskManager();
-        StarrySky.Companion.with().addPlayerEventListener(this);
+        StarrySky.with().addPlayerEventListener(this,"sd");
 
         seekBar=findViewById(R.id.seekBar111);
         tv1=findViewById(R.id.textView1111);
@@ -44,16 +46,16 @@ public class MainActivity extends AppCompatActivity implements OnPlayerEventList
                 SongInfo info = new SongInfo();
                 info.setSongId("424264505");
                 info.setSongUrl("http://m8.music.126.net/20200610225648/ac9b0b9f6e1d86e815d4bcbf8b07e7ac/ymusic/c288/d85f/2a9a/b92673879918b3d583cad67e0c591a8d.mp3");
-                StarrySky.Companion.with().playMusicByInfo(info);
+                StarrySky.with().playMusicByInfo(info);
             }
         });
 
         manager.setUpdateProgressTask(() -> {
-            long progress = StarrySky.Companion.with().getPlayingPosition();
-            long max=StarrySky.Companion.with().getDuration();
+            long progress = StarrySky.with().getPlayingPosition();
+            long max=StarrySky.with().getDuration();
             seekBar.setMax((int)max);
             seekBar.setProgress((int) progress);
-            seekBar.setSecondaryProgress((int) StarrySky.Companion.with().getBufferedPosition());
+            seekBar.setSecondaryProgress((int) StarrySky.with().getBufferedPosition());
         });
 
         @SuppressLint("SimpleDateFormat")
@@ -72,57 +74,15 @@ public class MainActivity extends AppCompatActivity implements OnPlayerEventList
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
-                StarrySky.Companion.with().seekTo(seekBar.getProgress());
+                StarrySky.with().seekTo(seekBar.getProgress(),true);
             }
         });
 
 
-
-
-
     }
 
 
     @Override
-    public void onBuffering() {
-
-        manager.stopToUpdateProgress();
-    }
-
-    @Override
-    public void onError(int i, String s) {
-
-    }
-
-    @Override
-    public void onMusicSwitch(SongInfo songInfo) {
-
-        manager.startToUpdateProgress();
-        seekBar.setMax((int) songInfo.getDuration());
-        Toast.makeText(MainActivity.this,songInfo.getDuration()+"",Toast.LENGTH_SHORT).show();
-    }
-
-    @Override
-    public void onPlayCompletion(SongInfo songInfo) {
-
-
-    }
-
-    @Override
-    public void onPlayerPause() {
-
-    }
-
-    @Override
-    public void onPlayerStart() {
-
-        manager.startToUpdateProgress();
-    }
-
-    @Override
-    public void onPlayerStop() {
-
-        manager.stopToUpdateProgress();
-
+    public void onPlaybackStageChange(PlaybackStage playbackStage) {
     }
 }

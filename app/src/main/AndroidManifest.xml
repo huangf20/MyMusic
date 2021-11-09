@@ -12,11 +12,6 @@
         android:theme="@style/AppTheme"
         android:resizeableActivity="true"
         android:maxAspectRatio="2.4">
-
-
-
-        　　
-        　　
         <activity android:name=".MVP.MusicPlayActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
